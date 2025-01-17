@@ -1,18 +1,8 @@
+// файл modal.js
+
 export function openModal(popup) {
   popup.classList.add('popup_is-opened');
   document.addEventListener('keydown', handleEscClose);
-}
-
-export function openImage(imageSrc, imageCaption) {
-  const popup = document.querySelector('.popup_type_image');
-  const popupImage = popup.querySelector('.popup__image');
-  const popupCaption = popup.querySelector('.popup__caption');
-
-  popupImage.src = imageSrc;
-  popupImage.alt = imageCaption;
-  popupCaption.textContent = imageCaption;
-
-  openModal(popup);
 }
 
 export function closeModal(popup) {
@@ -50,4 +40,41 @@ export function setupOverlayClose(popups) {
       }
     });
   });
+}
+
+// api
+
+// export function openEditProfileModal(userData) {
+//   const popup = document.querySelector('.popup_type_edit');
+//   const nameInput = popup.querySelector('.popup__input_type_name');
+//   const descriptionInput = popup.querySelector('.popup__input_type_description');
+
+//   // Подставляем текущие данные пользователя в поля формы
+//   nameInput.value = userData.name;
+//   descriptionInput.value = userData.about;
+
+//   console.log('Открытие попапа с данными:', userData);
+
+//   // Открываем попап
+//   openModal(popup);
+// }
+
+export function openEditProfileModal(userData) {
+  console.log('Открытие попапа с данными:', userData);
+
+  if (!userData || !userData.name || !userData.about) {
+    console.error('Данные пользователя некорректны:', userData);
+    return; // Если данные некорректны, прекращаем выполнение функции
+  }
+  
+  const popup = document.querySelector('.popup_type_edit');
+  const nameInput = popup.querySelector('.popup__input_type_name');
+  const descriptionInput = popup.querySelector('.popup__input_type_description');
+
+  // Подставляем текущие данные пользователя в поля формы
+  nameInput.value = userData.name || '';
+  descriptionInput.value = userData.about || '';
+
+  // Открываем попап
+  openModal(popup);
 }

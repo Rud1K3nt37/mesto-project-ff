@@ -1,3 +1,5 @@
+// файл card.js
+
 export function createCard(cardData, deleteCardCallback, toggleLikeCallback, openImageCallback) {
   const cardTemplate = document.querySelector('#card-template').content;
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
