@@ -1,7 +1,5 @@
 // файл api.js
 
-import { openEditProfileModal } from './modal.js';
-
 const apiConfig = {
   baseUrl: 'https://mesto.nomoreparties.co/v1/wff-cohort-27',
   headers: {
@@ -10,82 +8,70 @@ const apiConfig = {
   },
 };
 
-function request(endpoint, options = {}) {
-  return fetch(`${apiConfig.baseUrl}${endpoint}`, {
-    headers: apiConfig.headers,
-    ...options,
+const getUserInfo = () => {
+  return fetch(`${apiConfig.baseUrl}/users/me`, {
+    headers: apiConfig.headers
   })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
+  .then(res => res.json());
+}
+
+const updateUserInfo = (name, about) => {
+  return fetch(`${apiConfig.baseUrl}/users/me`, {
+    method: 'PATCH',
+    headers: apiConfig.headers,
+    body: JSON.stringify({
+      name: name,
+      about: about
     })
-    .catch((err) => {
-      console.error(err);
-    });
+  })
+  .then(res => res.json());
 }
 
-function updateUserInfo({ name, about, avatar }) {
-  const profileTitle = document.querySelector('.profile__title');
-  const profileDescription = document.querySelector('.profile__description');
-  const profileImage = document.querySelector('.profile__image');
-
-  profileTitle.textContent = name;
-  profileDescription.textContent = about;
-  profileImage.style.backgroundImage = `url(${avatar})`;
-}
-
-// function getUserInfo() {
-//   return request('/users/me')
-//     .then((userData) => {
-//       updateUserInfo(userData);
-//     })
-//     .catch((err) => {
-//       console.error('Ошибка загрузки данных пользователя:', err);
-//     });
-// }
-
-// function getUserInfo() {
-//   return request('/users/me')
-//     .then((userData) => {
-//       console.log('Полученные данные пользователя:', userData); // Логируем данные
-//       if (userData) {
-//         openEditProfileModal(userData); // Открываем попап, если данные получены
-//       } else {
-//         console.error('Данные пользователя не были получены');
-//       }
-//     })
-//     .catch((err) => {
-//       console.error('Ошибка загрузки данных пользователя:', err);
-//     });
-// }
-
-// Функция для получения данных пользователя
-function getUserInfo() {
-  return request('/users/me')
-    .then((userData) => {
-      console.log('Полученные данные пользователя:', userData);
-      if (userData && userData.name && userData.about) {
-        openEditProfileModal(userData); // Открываем попап с данными, если всё корректно
-      } else {
-        console.error('Данные пользователя не были получены');
-      }
+const updateUserAvatar = (link) => {
+  return fetch(`${apiConfig.baseUrl}/users/me/avatar`, {
+    method: 'PATCH',
+    headers: apiConfig.headers,
+    body: JSON.stringify({
+      avatar: link
     })
-    .catch((err) => {
-      console.error('Ошибка загрузки данных пользователя:', err);
-    });
+  })
+  .then(res => res.json());
+}
+
+const getInitialCards = () => {
+  return fetch(`${apiConfig.baseUrl}/cards`, {
+    headers: apiConfig.headers
+  })
+  .then(res => res.json());
+}
+
+const addNewCard = (name, link) => {
+  return fetch(`${apiConfig.baseUrl}/cards`, {
+    method: 'POST',
+    headers: apiConfig.headers,
+    body: JSON.stringify({
+      name: name,
+      link: link
+    })
+  })
+  .then(res => res.json());
+}
+
+const removeCard = (id) => {
+  return fetch(`${apiConfig.baseUrl}/cards/${id}`, {
+    method: 'DELETE',
+    headers: apiConfig.headers
+  })
+  .then(res => res.json());
+}
+
+const likeCard = (id, isLiked) => {
+  return fetch(`${apiConfig.baseUrl}/cards/likes/${id}`, {
+    method: isLiked? 'DELETE': 'PUT',
+    headers: apiConfig.headers
+  })
+  .then(res => res.json());
 }
 
 
-
-function getCards() {
-  return request('/cards') // Запрос на /cards, чтобы получить карточки
-    .then((cardsData) => cardsData) // Данные карточек
-    .catch((err) => {
-      console.error('Ошибка загрузки карточек:', err);
-    });
-}
-
-
-export { request, getUserInfo, getCards };
+export { getUserInfo, updateUserInfo, updateUserAvatar, getInitialCards, addNewCard, removeCard, likeCard };

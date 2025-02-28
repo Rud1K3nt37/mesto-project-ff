@@ -42,23 +42,6 @@ export function setupOverlayClose(popups) {
   });
 }
 
-// api
-
-// export function openEditProfileModal(userData) {
-//   const popup = document.querySelector('.popup_type_edit');
-//   const nameInput = popup.querySelector('.popup__input_type_name');
-//   const descriptionInput = popup.querySelector('.popup__input_type_description');
-
-//   // Подставляем текущие данные пользователя в поля формы
-//   nameInput.value = userData.name;
-//   descriptionInput.value = userData.about;
-
-//   console.log('Открытие попапа с данными:', userData);
-
-//   // Открываем попап
-//   openModal(popup);
-// }
-
 export function openEditProfileModal(userData) {
   console.log('Открытие попапа с данными:', userData);
 
