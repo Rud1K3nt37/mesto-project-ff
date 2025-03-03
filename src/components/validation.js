@@ -33,6 +33,12 @@ const checkInputValidity = (formElement, inputElement, validationConfig) => {
   }
 };
 
+const disableSubmitButton = (buttonElement, validationConfig) => {
+  buttonElement.disabled = true;
+  buttonElement.classList.add(validationConfig.inactiveButtonClass);
+};
+
+
 // Проверка наличия ошибок в форме
 const hasInvalidInput = (inputList) => {
   return inputList.some((inputElement) => !inputElement.validity.valid);
@@ -41,8 +47,7 @@ const hasInvalidInput = (inputList) => {
 // Функция для активации или деактивации кнопки отправки
 const toggleButtonState = (inputList, buttonElement, validationConfig) => {
   if (hasInvalidInput(inputList)) {
-    buttonElement.disabled = true;
-    buttonElement.classList.add(validationConfig.inactiveButtonClass);
+    disableSubmitButton(buttonElement, validationConfig);
   } else {
     buttonElement.disabled = false;
     buttonElement.classList.remove(validationConfig.inactiveButtonClass);
@@ -86,8 +91,7 @@ const clearValidation = (formElement, validationConfig) => {
     hideInputError(formElement, inputElement, validationConfig); // Скрыть все ошибки
   });
 
-  buttonElement.disabled = true;
-  buttonElement.classList.add(validationConfig.inactiveButtonClass);
+  disableSubmitButton(buttonElement, validationConfig);
 };
 
 export { enableValidation, clearValidation };

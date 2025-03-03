@@ -8,11 +8,21 @@ const apiConfig = {
   },
 };
 
+// Функция для обработки ответа
+const handleResponse = (res) => {
+  if (res.ok) {
+    return res.json();
+  }
+  // Если ошибка, отклоняем промис
+  return Promise.reject(`Ошибка: ${res.status}`);
+};
+
 const getUserInfo = () => {
   return fetch(`${apiConfig.baseUrl}/users/me`, {
     headers: apiConfig.headers
   })
-  .then(res => res.json());
+  // .then(res => res.json());
+  .then(handleResponse);
 }
 
 const updateUserInfo = (name, about) => {
@@ -24,7 +34,8 @@ const updateUserInfo = (name, about) => {
       about: about
     })
   })
-  .then(res => res.json());
+  // .then(res => res.json());
+  .then(handleResponse);
 }
 
 const updateUserAvatar = (link) => {
@@ -35,7 +46,8 @@ const updateUserAvatar = (link) => {
       avatar: link
     })
   })
-  .then(res => res.json());
+  // .then(res => res.json());
+  .then(handleResponse);
 }
 
 const getInitialCards = () => {
@@ -54,7 +66,8 @@ const addNewCard = (name, link) => {
       link: link
     })
   })
-  .then(res => res.json());
+  // .then(res => res.json());
+  .then(handleResponse);
 }
 
 const removeCard = (id) => {
@@ -62,7 +75,8 @@ const removeCard = (id) => {
     method: 'DELETE',
     headers: apiConfig.headers
   })
-  .then(res => res.json());
+  // .then(res => res.json());
+  .then(handleResponse);
 }
 
 const likeCard = (id, isLiked) => {
@@ -70,7 +84,8 @@ const likeCard = (id, isLiked) => {
     method: isLiked? 'DELETE': 'PUT',
     headers: apiConfig.headers
   })
-  .then(res => res.json());
+  // .then(res => res.json());
+  .then(handleResponse);
 }
 
 

@@ -35,16 +35,26 @@ export function createCard(cardData, deleteCardCallback, toggleLikeCallback, ope
 }
 
 export function deleteCard(cardElement, id) {
-  removeCard(id).then(data => {
+  removeCard(id)
+    .then(data => {
     cardElement.remove();
-  })
+    })
+    .catch(err => {
+      console.error('Ошибка при удалении карточки:', err);
+      alert('Не удалось удалить карточку. Попробуйте позже.');
+    });
 }
 
 export function toggleLike(button, id, countElement) {
   const isLiked = button.classList.contains('card__like-button_is-active');
 
-  likeCard(id, isLiked).then(cardData => {
-    button.classList.toggle('card__like-button_is-active');
-    countElement.textContent = cardData.likes.length;
-  })
+  likeCard(id, isLiked)
+    .then(cardData => {
+      button.classList.toggle('card__like-button_is-active');
+      countElement.textContent = cardData.likes.length;
+    })
+    .catch(err => {
+      console.error('Ошибка при изменении лайка:', err);
+      alert('Не удалось обновить лайк. Попробуйте позже.');
+    });
 }

@@ -1,6 +1,6 @@
 import './styles/index.css';
 import { createCard, deleteCard, toggleLike } from './components/card.js';
-import { openModal, closeModal, setupCloseButtons, setupOverlayClose, openEditProfileModal } from './components/modal.js';
+import { openModal, closeModal, setupCloseButtons, setupOverlayClose } from './components/modal.js';
 import { enableValidation, clearValidation } from './components/validation.js';
 import { getUserInfo, updateUserInfo, updateUserAvatar, getInitialCards, addNewCard} from './components/api.js';
 
@@ -66,15 +66,26 @@ addProfileButton.addEventListener('click', () => {
 });
 
 // Открытие формы редактирования профиля с подставлением данных пользователя
+// editProfileButton.addEventListener('click', () => {
+//   getUserInfo()
+//     .then((userData) => {
+//       openEditProfileModal(userData);  // Передаем данные в функцию открытия модального окна
+//       clearValidation(formElement, validationConfig);
+//     })
+//     .catch((err) => {
+//       console.error('Ошибка при загрузке данных пользователя:', err);
+//     });
+// });
+
 editProfileButton.addEventListener('click', () => {
-  getUserInfo()
-    .then((userData) => {
-      openEditProfileModal(userData);  // Передаем данные в функцию открытия модального окна
-      clearValidation(formElement, validationConfig);
-    })
-    .catch((err) => {
-      console.error('Ошибка при загрузке данных пользователя:', err);
-    });
+  const profileTitle = document.querySelector('.profile__title');
+  const profileDescription = document.querySelector('.profile__description');
+  
+  nameInput.value = profileTitle.textContent;
+  jobInput.value = profileDescription.textContent;
+  
+  openModal(document.querySelector('.popup_type_edit'));
+  clearValidation(formElement, validationConfig); // Добавляем очистку ошибок
 });
 
 editAvatarButton.addEventListener('click', () => {

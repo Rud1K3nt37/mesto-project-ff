@@ -41,23 +41,3 @@ export function setupOverlayClose(popups) {
     });
   });
 }
-
-export function openEditProfileModal(userData) {
-  console.log('Открытие попапа с данными:', userData);
-
-  if (!userData || !userData.name || !userData.about) {
-    console.error('Данные пользователя некорректны:', userData);
-    return; // Если данные некорректны, прекращаем выполнение функции
-  }
-  
-  const popup = document.querySelector('.popup_type_edit');
-  const nameInput = popup.querySelector('.popup__input_type_name');
-  const descriptionInput = popup.querySelector('.popup__input_type_description');
-
-  // Подставляем текущие данные пользователя в поля формы
-  nameInput.value = userData.name || '';
-  descriptionInput.value = userData.about || '';
-
-  // Открываем попап
-  openModal(popup);
-}
